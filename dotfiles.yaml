@@ -1,0 +1,14 @@
+applications:
+- git
+- fish
+- i3
+- polybar
+- rofi
+- feh
+
+configs:
+- ~/.config/git/config
+- ~/.config/git/fish/config.fish
+- ~/.config/i3/config
+- ~/.config/rofi/config
+- ~/.config/polybar/config

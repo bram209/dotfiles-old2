@@ -1,0 +1,43 @@
+---
+supported_package_managers:
+- eopkg
+- npm
+- pacman
+
+
+applications:
+
+- name: git
+  package_name:
+    eopkg: git
+    pacman: git
+  symlinks:
+    - source: "./config/git/config"
+      dest: "~/.config/git/config"
+    
+- name: fish
+  package_name:
+    eopkg: fish
+   	pacman: fish 
+  symlinks:
+  - source: "./config/config.fish"
+    dest: "~/.config/fish/config.fish"
+
+- name: i3wm
+  package_name:
+    solus: i3
+    pacman: i3
+  symlinks:
+  - source: "./config/i3"
+    dest: "~/.config/i3/config"
+
+- name: hblock
+  description: Improve your security and privacy by blocking ads
+  package_name:
+    npm: hblock
+  post_install: systemctl enable hblock.timer
+  symlinks:
+  - source: "./config/hblock/hblock.timer"
+    dest: "/etc/systemd/system/hblock.timer"
+  - source: "./config/hblock/hblock.service"
+    dest: "/etc/systemd/system/hblock.service"
