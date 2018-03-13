@@ -185,6 +185,9 @@ bar {
         }
 }
 
+########## Autostart #########
+exec compton --config ~/.config/compton.conf
+
 ########## Styling ##########
 
 client.focused #404552 #404552 #fafafa #ff5757 #666666

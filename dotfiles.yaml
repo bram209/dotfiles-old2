@@ -5,10 +5,13 @@ applications:
 - polybar
 - rofi
 - feh
+- compton
 
 configs:
 - ~/.config/git/config
 - ~/.config/git/fish/config.fish
+- ~/.config/compton.conf
 - ~/.config/i3/config
 - ~/.config/rofi/config
+- ~/.config/rofi/material.rasi
 - ~/.config/polybar/config
