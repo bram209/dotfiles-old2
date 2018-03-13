@@ -43,11 +43,17 @@ func main() {
 		check(err)
 	}
 
+	fmt.Printf("Symlinking config files:\n")
 	for idx := range dotfiles.Configs {
 		configDestination := dotfiles.Configs[idx]
 		configSource, err := findConfig(configDestination)
 		check(err)
+
 		if configSource != "" {
+			// Make sure that directory of the config file exists
+			err = os.MkdirAll(configDestination, os.ModePerm)
+			check(err)
+
 			fmt.Printf("Symlinking config file: %s -> %s\n", configSource, configDestination)
 			cmd := exec.Command("sh", "-c", fmt.Sprintf("ln -sf %s %s", configSource, configDestination))
 			err = cmd.Run()
