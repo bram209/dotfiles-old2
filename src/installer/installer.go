@@ -6,8 +6,10 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -23,13 +25,31 @@ func check(e error) {
 	}
 }
 
-func main() {
-	fmt.Printf("hello, world\n")
-	dotfiles := Dotfiles{}
+func loadDotfiles() (dotfiles Dotfiles, err error) {
 	data, err := ioutil.ReadFile("dotfiles.yaml")
-	check(err)
+	if err != nil {
+		return
+	}
 
 	err = yaml.Unmarshal([]byte(data), &dotfiles)
+	return
+}
+
+func getHomeDir() (homeDir string, err error) {
+	usr, err := user.Current()
+	if err != nil {
+		return
+	}
+
+	homeDir = usr.HomeDir
+	return
+}
+
+func main() {
+	dotfiles, err := loadDotfiles()
+	check(err)
+
+	homeDir, err := getHomeDir()
 	check(err)
 
 	fmt.Printf("Installing applications:\n")
@@ -38,24 +58,25 @@ func main() {
 		fmt.Printf("Installing %s...\n", packageName)
 		cmd := exec.Command("sh", "-c", fmt.Sprintf("sudo eopkg install %s", packageName))
 		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 		err := cmd.Run()
 		check(err)
 	}
 
 	fmt.Printf("Symlinking config files:\n")
 	for idx := range dotfiles.Configs {
-		configDestination := dotfiles.Configs[idx]
+		configDestination := strings.Replace(dotfiles.Configs[idx], "~", homeDir, 1)
 		configSource, err := findConfig(configDestination)
 		check(err)
 
 		if configSource != "" {
 			// Make sure that directory of the config file exists
-			err = os.MkdirAll(configDestination, os.ModePerm)
+			err = os.MkdirAll(filepath.Dir(configDestination), os.ModePerm)
 			check(err)
 
 			fmt.Printf("Symlinking config file: %s -> %s\n", configSource, configDestination)
 			cmd := exec.Command("sh", "-c", fmt.Sprintf("ln -sf %s %s", configSource, configDestination))
+			cmd.Stderr = os.Stderr
 			err = cmd.Run()
 			check(err)
 		}
