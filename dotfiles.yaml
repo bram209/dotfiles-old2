@@ -9,9 +9,8 @@ applications:
 
 configs:
 - ~/.config/git/config
-- ~/.config/git/fish/config.fish
+- ~/.config/git/fish
 - ~/.config/compton.conf
 - ~/.config/i3/config
-- ~/.config/rofi/config
-- ~/.config/rofi/material.rasi
-- ~/.config/polybar/config
+- ~/.config/rofi
+- ~/.config/polybar

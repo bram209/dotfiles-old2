@@ -66,7 +66,7 @@ func main() {
 	fmt.Printf("Symlinking config files:\n")
 	for idx := range dotfiles.Configs {
 		configDestination := strings.Replace(dotfiles.Configs[idx], "~", homeDir, 1)
-		configSource, err := findConfig(configDestination)
+		configSource, fileInfo, err := findConfig(configDestination)
 		check(err)
 
 		if configSource != "" {
@@ -74,8 +74,15 @@ func main() {
 			err = os.MkdirAll(filepath.Dir(configDestination), os.ModePerm)
 			check(err)
 
-			fmt.Printf("Symlinking config file: %s -> %s\n", configSource, configDestination)
-			cmd := exec.Command("sh", "-c", fmt.Sprintf("ln -sf %s %s", configSource, configDestination))
+			configType := "file"
+			if fileInfo.IsDir() {
+				configType = "dir"
+				os.Remove(configDestination)
+				configDestination = filepath.Dir(configDestination)
+			}
+
+			fmt.Printf("Symlinking config %s: %s -> %s\n", configType, configSource, configDestination)
+			cmd := exec.Command("sh", "-c", fmt.Sprintf("ln -sfn %s %s", configSource, configDestination))
 			cmd.Stderr = os.Stderr
 			err = cmd.Run()
 			check(err)
@@ -83,7 +90,7 @@ func main() {
 	}
 }
 
-func findConfig(configFilePath string) (result string, err error) {
+func findConfig(configFilePath string) (result string, fileInfo os.FileInfo, err error) {
 	rootDir, err := os.Getwd()
 	check(err)
 
@@ -97,14 +104,15 @@ func findConfig(configFilePath string) (result string, err error) {
 	}
 
 	err = filepath.Walk(rootDir, func(path string, f os.FileInfo, _ error) error {
-		if !f.IsDir() {
-			match, err := regexp.MatchString(searchTerm, path)
-			if err == nil && match {
-				result = path
-				return io.EOF
-			}
-		} else if f.Name() == ".git" {
+		if f.IsDir() && f.Name() == ".git" {
 			return filepath.SkipDir
+		}
+
+		match, err := regexp.MatchString(searchTerm, path)
+		if err == nil && match {
+			result = path
+			fileInfo = f
+			return io.EOF
 		}
 
 		return nil
