@@ -6,6 +6,8 @@ applications:
 - rofi
 - feh
 - compton
+- playerctl
+- xwindow
 
 configs:
 - ~/.config/git/config
