@@ -125,8 +125,11 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # cycle throug workspaces
-bindsym Mod1+Tab workspace next
-bindsym Mod1+Shift+Tab workspace prev
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+# go back and forth between two workspaces
+bindsym Mod1+Tab workspace back_and_forth
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
