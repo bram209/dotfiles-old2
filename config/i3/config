@@ -182,11 +182,23 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 ########## Styling ##########
 
-client.focused #404552 #404552 #fafafa #ff5757 #666666
-client.focused_inactive #666666 #404552 #eeeeee #5294e2 #666666
-client.unfocused #404552 #484b52 #eeeeee #ff5757 #404552
-client.urgent #ff5757 #404552 #ffffff #555757 #404552
-client.background #404552
+#client.focused #404552 #404552 #fafafa #ff5757 #666666
+#client.focused_inactive #666666 #404552 #eeeeee #5294e2 #666666
+#client.unfocused #404552 #484b52 #eeeeee #ff5757 #404552
+#client.urgent #ff5757 #404552 #ffffff #555757 #404552
+#client.background #404552
+
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
 
 ########## i3-gaps integration ##########
 for_window [class="^.*"] border pixel 3
@@ -195,5 +207,5 @@ for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
 
 smart_gaps on
-gaps inner 10
-gaps outer 0
+gaps inner 0
+gaps outer 10
