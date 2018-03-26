@@ -59,6 +59,7 @@ func main() {
 		cmd := exec.Command("sh", "-c", fmt.Sprintf("sudo eopkg install %s", packageName))
 		cmd.Stdin = os.Stdin
 		cmd.Stderr = os.Stderr
+		cmd.Stdout = os.Stdout
 		err := cmd.Run()
 		check(err)
 	}
