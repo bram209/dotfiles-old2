@@ -7,7 +7,7 @@ applications:
 - feh
 - compton
 - playerctl
-- xwindow
+- rxvt-unicode
 
 configs:
 - ~/.config/git/config
@@ -16,3 +16,4 @@ configs:
 - ~/.config/i3/config
 - ~/.config/rofi
 - ~/.config/polybar
+- ~/.Xresources

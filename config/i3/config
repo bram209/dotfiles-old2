@@ -50,7 +50,8 @@ bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mu
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -145,6 +146,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # assign applications to workspaces
 assign [class="Code"] 3
+assign [class="Enpass"] 8
 assign [class="Franz"] 9
 
 for_window [class="Spotify"] move to workspace 10 
@@ -184,7 +186,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ########## Autostart #########
-exec compton --config ~/.config/compton.conf
+#exec compton --config ~/.config/compton.conf
+exec_always xrdb -merge ~/.Xresources
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 ########## Styling ##########
@@ -198,6 +201,15 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 set_from_resource $fg i3wm.color7 #f0f0f0
 set_from_resource $bg i3wm.color2 #f0f0f0
 
+
+for_window [class="^.*"] border pixel 0
+for_window [class="URxvt"] border pixel 1
+hide_edge_borders smart
+set $bg #729FCF
+client.focused $border_color $border_color $border_color $border_color $border_color
+client.unfocused $border_color $border_color $border_color $border_color $border_color
+client.focused_inactive $border_color $border_color $border_color $border_color $border_color
+
 # class                 border  backgr. text indicator child_border
 client.focused          $bg     $bg     $fg  $bg       $bg
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
@@ -208,11 +220,11 @@ client.placeholder      $bg     $bg     $fg  $bg       $bg
 client.background       $bg
 
 ########## i3-gaps integration ##########
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 1
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
 
 smart_gaps on
-gaps inner 0
-gaps outer 10
+gaps inner 15
+gaps outer 5
