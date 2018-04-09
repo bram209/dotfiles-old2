@@ -10,24 +10,24 @@ URxvt.cursorBlink: False
 URxvt.internalBorder: 20
 
 ! Extensions
-URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
+URxvt.perl-ext-common: default,clipboard,pasta,keyboard-select,url-select
 URxvt.urlLauncher: xdg-open
 URxvt.urlButton: 1
 URxvt.underlineURLs: True
 
-URxvt.copyCommand:  xclip -i -selection clipboard
-URxvt.pasteCommand: xclip -o -selection clipboard
+!URxvt.copyCommand:  xclip -i -selection clipboard
+!URxvt.pasteCommand: xclip -o -selection clipboard
 
 ! Keybindings
-URxvt.keysym.Mod4-c: perl:clipboard:copy
-URxvt.keysym.Mod4-v: perl:clipboard:paste
-URxvt.keysym.Mod4-C-v: perl:clipboard:paste_escaped
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym.C-Escape: perl:keyboard-select:activate
-URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+!URxvt.keysym.Mod4-C-v: perl:clipboard:paste_escaped
+!URxvt.keysym.M-c: perl:clipboard:copy
+!URxvt.keysym.M-v: perl:clipboard:paste
+!URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+!URxvt.keysym.M-Escape: perl:keyboard-select:activate
+!URxvt.keysym.C-Escape: perl:keyboard-select:activate
+!URxvt.keysym.M-u: perl:url-select:select_next
 
 ! Home/End keys
 URxvt.keysym.Home: \033[1~
